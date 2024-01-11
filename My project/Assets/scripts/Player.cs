@@ -5,32 +5,39 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Rigidbody rb;
+    public CharacterController characterController;
 
-    public Transform playerbody;
+    public Transform GroundCheck;
+    public LayerMask gmask;
 
-    float xRotation = 0f;
+    public float speed = 12f, gravity = -9.82f, groundDis = 0.4f;
 
+    Vector3 velocity;
+
+    bool grounded;
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        grounded = Physics.CheckSphere(GroundCheck.position, groundDis, gmask);
+
+        if (grounded && velocity.y < 0)
+            velocity.y = -2f;
+
         float hi = Input.GetAxis("Horizontal");
         float vi = Input.GetAxis("Vertical");
 
-        float mouseX = Input.GetAxis("Mouse X") * 5f;
-        float mouseY = Input.GetAxis("Mouse Y") * 5f;
+        Vector3 move = transform.right * hi + transform.forward * vi;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
+        characterController.Move(move * speed * Time.deltaTime);
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-        playerbody.Rotate(Vector3.up * mouseX);
+        velocity.y += gravity * Time.deltaTime;
+
+        characterController.Move(velocity * Time.deltaTime);
     }
 }
