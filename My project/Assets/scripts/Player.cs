@@ -24,8 +24,6 @@ public class Player : MonoBehaviour
         float hi = Input.GetAxis("Horizontal");
         float vi = Input.GetAxis("Vertical");
 
-        rb.velocity = new Vector3 (hi * 5f, rb.velocity.y, vi * 5f);
-
         float mouseX = Input.GetAxis("Mouse X") * 5f;
         float mouseY = Input.GetAxis("Mouse Y") * 5f;
 
