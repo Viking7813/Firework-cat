@@ -24,17 +24,17 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.normalized == next_pos.normalized)
+        if (transform.position.normalized == next_pos.normalized && next_pos != point2.transform.position)
         {
             next_pos = point3.transform.position;
         }
 
-        if (transform.position.normalized == next_pos.normalized)
+        if (transform.position.normalized == next_pos.normalized && next_pos != point3.transform.position)
         {
             next_pos = point4.transform.position;
         }
 
-        if (transform.position.normalized == next_pos.normalized)
+        if (transform.position.normalized == next_pos.normalized && next_pos != point4.transform.position)
         {
             next_pos = point1.transform.position;
         }
