@@ -1,47 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public Rigidbody body;
+    public NavMeshAgent meshAgent;
 
-    public GameObject point1, point2, point3, point4;
+    public List<GameObject> waypoints;
 
-    public float velocity;
+    public GameObject player;
 
-    private Vector3 next_pos, targetdir, currentpos;
-    //Vector3 targetpos = new Vector3(0, 1, 0);
+    public float velocity, index, distance;
+
+    private Vector3 next_pos, destination;
+
+    public bool chasing = false;
+    private bool R = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        next_pos = point2.transform.position;
-        //transform.position = currentpos;
-        //Vector3 targetpos = new Vector3(0, 1, 0);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.normalized == next_pos.normalized && next_pos != point2.transform.position)
+        if (R == false)
         {
-            next_pos = point3.transform.position;
+            meshAgent.ResetPath();
+            R = true;
         }
-
-        if (transform.position.normalized == next_pos.normalized && next_pos != point3.transform.position)
+        if (chasing == false)
         {
-            next_pos = point4.transform.position;
-        }
+                destination = waypoints[(int)index].transform.position;
+                next_pos = Vector3.MoveTowards(transform.position, destination, velocity * Time.deltaTime);
+                transform.position = next_pos;
 
-        if (transform.position.normalized == next_pos.normalized && next_pos != point4.transform.position)
+                distance = Vector3.Distance(transform.position, destination);
+                if (distance <= 0.05)
+                {
+                    if (index < waypoints.Count - 1)
+                        index++;
+                    else
+                        index = 0;
+                }
+        }
+        if (chasing == true)
         {
-            next_pos = point1.transform.position;
+            meshAgent.SetDestination(player.transform.position);
+            R = false;
         }
-
-        targetdir = (transform.position - next_pos).normalized;
-
-        body.MovePosition(transform.position - targetdir * Time.deltaTime * velocity);
-
     }
 }

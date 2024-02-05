@@ -3,17 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Entity
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - entity
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - walls
+  - roof
   - 
   - 
   - 
