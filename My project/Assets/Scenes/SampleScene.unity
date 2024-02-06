@@ -242,7 +242,6 @@ GameObject:
   - component: {fileID: 109175170}
   - component: {fileID: 109175168}
   - component: {fileID: 109175174}
-  - component: {fileID: 109175176}
   - component: {fileID: 109175177}
   m_Layer: 3
   m_Name: enemy
@@ -273,7 +272,18 @@ MonoBehaviour:
   velocity: 10
   index: 0
   distance: 0
+  radius: 0
+  angle: 0
+  next_pos: {x: 0, y: 0, z: 0}
+  destination: {x: 0, y: 0, z: 0}
   chasing: 0
+  onpath: 1
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!23 &109175170
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -333,7 +343,7 @@ Transform:
   m_GameObject: {fileID: 109175166}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13, y: 3, z: 6}
+  m_LocalPosition: {x: -13, y: 3.184, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -352,42 +362,15 @@ NavMeshAgent:
   m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 180
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.5
+  m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &109175176
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 109175166}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!136 &109175177
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -821,7 +804,7 @@ GameObject:
   - component: {fileID: 936282254}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1460,37 +1443,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5144660896993003313, guid: b41fa4e174351574a9248ef434d1def3, type: 3}
   m_PrefabInstance: {fileID: 1756373933}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1413068782
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1413068783}
-  m_Layer: 0
-  m_Name: Nav
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &1413068783
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413068782}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.5634537, y: 4.0659184, z: -4.349085}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1514639496
 GameObject:
   m_ObjectHideFlags: 0
@@ -2241,4 +2193,3 @@ SceneRoots:
   - {fileID: 1119209150}
   - {fileID: 347907233}
   - {fileID: 1597791802}
-  - {fileID: 1413068783}
