@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,13 +14,14 @@ public class Enemy: MonoBehaviour
 
     public GameObject player;
 
-    public float velocity, index, distance, radius, angle;
+    public float velocity, index, distance, radius;
 
-    public Vector3 next_pos, destination;
+    [Range(0, 360)]
+    public float angle;
 
-    public bool chasing = false;
-    public bool onpath = true;
-    private bool canSeePlayer = false;
+    public Vector3 next_pos, destination, movementDirection;
+
+    public bool chasing = false, onpath = true, canSeePlayer = false, editing = false;
 
     public LayerMask targetMask, obstructionMask;
 
@@ -27,11 +29,20 @@ public class Enemy: MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        StartCoroutine(FOVRoutine());
     }
 
     // Update is called once per frame
     void Update()
     {
+        movementDirection = new Vector3(velocity, 0, velocity);
+
+        if (canSeePlayer == true)
+            chasing = true;
+
+        else
+            chasing = false;
+
         if (chasing == false)
         {
             if (onpath == false)
@@ -62,11 +73,14 @@ public class Enemy: MonoBehaviour
                 }
             }
         }
+
         else if (chasing == true)
         {
             meshAgent.SetDestination(player.transform.position);
             onpath = false;
         }
+
+        transform.forward = movementDirection;
     }
     private IEnumerator FOVRoutine()
     {
@@ -101,9 +115,16 @@ public class Enemy: MonoBehaviour
                 canSeePlayer = false;
         }
 
-        if (canSeePlayer == true)
-            chasing = true;
-        else
-            chasing = false;
+        else if (canSeePlayer == true)
+            canSeePlayer = false;
+    }
+
+    private void OnSceneGUI()
+    {
+        if (editing == true)
+        {
+            Handles.color = Color.white;
+            Handles.DrawWireArc(transform.position, Vector3.up, Vector3.forward, 360, radius);
+        }
     }
 }
