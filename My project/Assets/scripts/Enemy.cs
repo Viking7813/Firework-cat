@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,14 +10,14 @@ public class Enemy: MonoBehaviour
 
     public List<GameObject> waypoints;
 
-    public GameObject player;
+    private GameObject player;
 
-    public float velocity, index, distance, radius;
+    private float velocity, index, distance, radius;
 
     [Range(0, 360)]
     public float angle;
 
-    public Vector3 next_pos, destination, movementDirection;
+    private Vector3 next_pos, destination, rotation;
 
     public bool chasing = false, onpath = true, canSeePlayer = false, editing = false;
 
@@ -35,7 +33,7 @@ public class Enemy: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movementDirection = new Vector3(velocity, 0, velocity);
+        transform.LookAt(rotation);
 
         if (canSeePlayer == true)
             chasing = true;
@@ -58,8 +56,15 @@ public class Enemy: MonoBehaviour
             else if (onpath == true)
             {
                 meshAgent.ResetPath();
+
+                rotation.x = destination.x;
+                rotation.z = destination.z;
+                rotation.y = transform.position.y;
+
                 destination = waypoints[(int)index].transform.position;
+
                 next_pos = Vector3.MoveTowards(transform.position, destination, velocity * Time.deltaTime);
+
                 transform.position = next_pos;
 
                 distance = Vector3.Distance(transform.position, destination);
@@ -77,10 +82,13 @@ public class Enemy: MonoBehaviour
         else if (chasing == true)
         {
             meshAgent.SetDestination(player.transform.position);
+
+            rotation.x = player.transform.position.x;
+            rotation.z = player.transform.position.z;
+            rotation.y = transform.position.y;
+
             onpath = false;
         }
-
-        transform.forward = movementDirection;
     }
     private IEnumerator FOVRoutine()
     {
